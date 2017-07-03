@@ -202,50 +202,61 @@ public class TestBoard {
 	   }
 	 
 	 
-	 @Test
+	@Test
 	   public void test_rollDice_for_position_near_100() throws InvalidTurnException, IOException, PlayerExistsException, GameInProgressException, MaxPlayersReachedExeption 
 	   { Board testboard = new Board();
 	   
-		Object ob;
+		JSONObject ob;
 		 
 	   testboard.registerPlayer("Ashika");
 	   testboard.registerPlayer("Megha");
-	   UUID uuid1=(UUID) ((JSONObject) testboard.data.getJSONArray("players").get(0)).get("uuid");
+	   
+	   int length=testboard.data.getJSONArray("players").length();
+	   
+	   
      
-	   for(Object playerObject:testboard.data.getJSONArray("players")){
-	  
+	   
+ //for(Object playerObject:testboard.data.getJSONArray("players")){
+	  for(int i=0;i< length;i++){
+	   Object playerObject=testboard.data.getJSONArray("players").getJSONObject(i);
 	            JSONObject player = (JSONObject)playerObject;
+
+	            UUID uuid1=(UUID) ((JSONObject) testboard.data.getJSONArray("players").get(i)).get("uuid");
+	            
 	            player.put("position", 95);
 	            Integer previousPosition=player.getInt("position");
-	          //  System.out.println("PreviousPosition"+previousPosition);
-		            
+	            System.out.println("PreviousPosition"+previousPosition);
+		        
+	         
+	            Integer turn = testboard.data.getInt("turn");
+	            System.out.println(turn);
+	           
 	            ob=testboard.rollDice(uuid1);
 	            Integer Position = player.getInt("position");
 	           
-	           // System.out.println("Position"+Position);
+	            System.out.println("Position"+Position);
 	           
-		       // String msg=(((JSONObject) ob).getString("message"));
-
-		        // System.out.println(msg);
-		       // Integer type = player.getInt("type");
-		     //   System.out.println("Type"+boardmodel..type);
+	            System.out.println(ob.getString("message"));
+		      
+		       
 		                
 		         if(Position>100)
 	            { 
 	        	   
-	        	  // System.out.println("messages"+(((JSONObject) ob).getString("message")));
-	        	   
+	        	
+	      
 	           assertThat(((JSONObject) ob).getString("message")).isEqualTo("Incorrect roll of dice. Player did not move");
 	            }
 	            else
 	            {
-	            	// System.out.println("messages"+(((JSONObject) ob).getString("message")));
-	  	           assertThat(((JSONObject) ob).getString("message"))
+	            	
+	            assertThat(((JSONObject) ob).getString("message"))
 	                  .isEqualTo("Player moved to " + Position);
 	            }
-	   }
+	      }
 	    
 	   }
+	 
 	 
 	  }
 
