@@ -94,7 +94,7 @@ public class TestBoard {
 	  }
 	 
 	 
-	 @Test
+	/* @Test
 	   public void test_rollDice_snake_steps_should_be_lower_than_target_position() throws FileNotFoundException, UnsupportedEncodingException, IOException, InvalidTurnException, PlayerExistsException, GameInProgressException, MaxPlayersReachedExeption
 	  { Board testboard = new Board();
 	  Board aSpy = Mockito.spy(testboard);
@@ -157,7 +157,78 @@ public class TestBoard {
     //System.out.println(TargetPosition);
     Assert.assertTrue(expected<TargetPosition);
      
+	  }*/
+	 @Test
+	   public void test_rollDice_for_snakes_and_ladders() throws FileNotFoundException, UnsupportedEncodingException, IOException, InvalidTurnException, PlayerExistsException, GameInProgressException, MaxPlayersReachedExeption
+	  { Board testboard = new Board();
+	  
+	  Integer dice;
+	
+	  testboard.registerPlayer("Ashika");
+	  testboard.registerPlayer("Aska");
+	  
+	  int length=testboard.data.getJSONArray("players").length();
+	  
+	  for(int i=0;i< length;i++){
+	  UUID uuid1=(UUID) ((JSONObject) testboard.data.getJSONArray("players").get(i)).get("uuid");
+   
+     Integer turn = testboard.data.getInt("turn");
+     
+     JSONObject player = testboard.data.getJSONArray("players").getJSONObject(turn); 
+     
+     Integer currentPosition = player.getInt("position");
+     
+     
+     
+     
+    dice= testboard.rollDice(uuid1).getInt("dice");
+    
+     System.out.println(dice);
+     
+     Integer TargetPosition = player.getInt("position");
+     
+    Integer expected=currentPosition+dice;
+    System.out.println(expected);
+    System.out.println(TargetPosition);
+    
+    
+   
+    
+    
+    JSONObject step = testboard.data.getJSONArray("steps").getJSONObject(expected);
+    
+    int  type = step.getInt("type");
+    System.out.println(type);
+    
+    if(step.getInt("type")==1)
+    {
+    	System.out.println("Snake encountered");
+    	Assert.assertTrue(expected>TargetPosition);
+        
+    	
+    
 	  }
+	 
+	  
+	 if(step.getInt("type")==2)
+	 {
+		 System.out.println("Ladder encountered");
+		 Assert.assertTrue(expected<TargetPosition);
+		
+    
+		 
+	 }   
+	 if(step.getInt("type")==0)
+	 {
+		 System.out.println("Normal Turn");
+		 Assert.assertTrue(expected==TargetPosition);
+		
+		 
+	 }
+		 
+	 }
+	  }
+
 	 
 	 
 	 @Test
