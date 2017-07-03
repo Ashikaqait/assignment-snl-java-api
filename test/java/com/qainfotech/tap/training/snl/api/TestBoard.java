@@ -94,7 +94,7 @@ public class TestBoard {
 	  }
 	 
 	 
-	/* @Test
+	 @Test
 	   public void test_rollDice_snake_steps_should_be_lower_than_target_position() throws FileNotFoundException, UnsupportedEncodingException, IOException, InvalidTurnException, PlayerExistsException, GameInProgressException, MaxPlayersReachedExeption
 	  { Board testboard = new Board();
 	  Board aSpy = Mockito.spy(testboard);
@@ -123,7 +123,7 @@ public class TestBoard {
      
       Assert.assertTrue(expected>TargetPosition);
        
-	  }*/
+	  }
 	
 	 
 	 @Test
